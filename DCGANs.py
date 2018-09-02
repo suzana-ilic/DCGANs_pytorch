@@ -16,14 +16,14 @@ import torchvision.utils as vutils
 from torch.autograd import Variable
 
 # Setting some hyperparameters
-batchSize = 64 # We set the size of the batch.
-imageSize = 64 # We set the size of the generated images (64x64).
+batchSize = 64 
+imageSize = 64 # size of the generated images (64x64).
 
 # Creating the transformations
 transform = transforms.Compose([transforms.Scale(imageSize), transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),]) # We create a list of transformations (scaling, tensor conversion, normalization) to apply to the input images.
 
 # Loading the dataset
-dataset = dset.ImageFolder(root = 'data/beach/', transform = transform) # We download the training set in the ./data folder and we apply the previous transformations on each image.
+dataset = dset.ImageFolder(root = './data', transform = transform) # We download the training set in the ./data folder and we apply the previous transformations on each image.
 dataloader = torch.utils.data.DataLoader(dataset, batch_size = batchSize, shuffle = True) # We use dataLoader to get the images of the training set batch by batch.
 
 # Defining the weights_init function that takes as input a neural network m and that will initialize all its weights.
@@ -92,7 +92,7 @@ class D(nn.Module):
         output = self.main(input)
         return output.view(-1) # .view(-1) flattens the result
  
-# create the discriminator
+# creating the discriminator
 discriminator = D()
 discriminator.apply(weights_init)
    
@@ -104,7 +104,7 @@ loss = nn.BCELoss()
 optimizer_D = optim.Adam(discriminator.parameters(), lr=0.0002, betas = (0.5, 0.999))
 optimizer_G = optim.Adam(generator.parameters(), lr=0.0002, betas = (0.5, 0.999))
 
-for epoch in range(25):
+for epoch in range(350):
     for i, data in enumerate(dataloader, 0):
         
         # Step 1: Udating the weights of the NN of the D
@@ -124,25 +124,25 @@ for epoch in range(25):
         output = discriminator(fake.detach())
         errorD_fake = loss(output, target)
         
-        # Backpropagation
+        # Backprop
         errorD = errorD_real + errorD_fake
         errorD.backward()
-        optimizerD.step()
+        optimizer_D.step()
 
 
-        # Step 2: Updating the weights of the NN of the G
+        # Updating the weights (G)
         generator.zero_grad()
         target = Variable(torch.ones(input.size()[0]))
         output = discriminator(fake)
         errorG = loss(output, target)
         errorG.backward()
-        optimizerG.step()
+        optimizer_G.step()
         
-        # Step 3: Printing the losses and saving real images and generated images
+        # Step 3: Printing the losses; saving real images and fake images
         
-        print('[%d/%d][%d/%d] Loss_D: %.4f Loss_G: %.4f' % (epoch, 25, i, len(dataloader), errorD.data[0], errorG.data[0]))
+        print('[%d/%d][%d/%d] Loss_D: %.3f Loss_G: %.3f' % (epoch, 25, i, len(dataloader), errorD.data[0], errorG.data[0]))
         if i % 100 == 0:
-            vutils.save_image(real, '%s/real_samples.png' % './results', normalize=True)
+            vutils.save_image(real, '%s/real_images.png' % './fake_data', normalize=True)
             fake = generator(noise)
-            vutils.save_image(fake.data, '%s/fake_samples_epoch_%03d.png' % ('./results', epoch), normalize = True)
+            vutils.save_image(fake.data, '%s/fake_images_epoch_%03d.png' % ('./fake_data', epoch), normalize = True)
 
