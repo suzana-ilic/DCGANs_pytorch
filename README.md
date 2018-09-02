@@ -27,7 +27,7 @@ Many GANs projects focus on faces. However, due to intricate facial details incl
 **Hypothesis: By reducing the complexity of shapes, texture and colors we can achieve good results in less time with less data.** 
 
 Why oceans and mountains?
-Both have distinct features. Oceans show few difficulties in terms of shapes and texture and have one nuanced base color. Mountains are more detailed in terms of shapes and texture, however scope allows many different variations of a prototype "triangle" and would still be recognized as mountains.
+Both have distinct features. Oceans show few difficulties in terms of shapes and texture and have one nuanced base color. Mountains are more detailed in terms of shapes and texture, however the scope of mountain landscapes allows many different variations and thus, would still be recognized as mountains.
 
 
 ![oceans_and_mountains](https://github.com/suzana-ilic/pytorch_DCGANs/blob/master/dcgans.gif)
