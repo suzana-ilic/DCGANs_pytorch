@@ -24,7 +24,7 @@ The layers of DCGANs change from fully connected layers in the orginial GANs to 
 
 Many GANs projects focus on faces. However, due to intricate facial details including shapes (face, eyes, nose, lips, glasses, ...), texture (hair, skin, ...), nuances of colors (hair, skin, ...) generating high quality images of faces can take weeks of training. [3] The prerequisite is access to a large database.
 
-**Hypothesis: By reducing the complexity of shapes, texture and colors we can achieve good results in less time with less data.** 
+By reducing the complexity of shapes, texture and colors we can achieve good results in less time with less data.
 
 Why oceans and mountains?
 Both have distinct features. Oceans show few difficulties in terms of shapes and texture and have one nuanced base color. Mountains are more detailed in terms of shapes and texture, however the scope of mountain landscapes allows many different variations and thus, would still be recognized as mountains.
